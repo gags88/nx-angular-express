@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@perch/task-data-access": ["libs/task-data-access/src/index.ts"],
       "@perch/features-task": ["libs/features/src/index.ts"],
       "@perch/shared-types": ["libs/shared/types/src/index.ts"]
     }
