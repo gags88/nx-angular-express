@@ -1,5 +1,6 @@
 import { SequelizeOptions } from 'sequelize-typescript';
 import { DB_DATABASE, DB_HOST, DB_PASSWORD, DB_PORT, DB_USER } from '../config';
+import { Task } from '../database/models/task.model';
 
 const databaseConfig: SequelizeOptions = {
   dialect: 'postgres',
@@ -10,7 +11,7 @@ const databaseConfig: SequelizeOptions = {
   password: DB_PASSWORD,
   minifyAliases: true,
   logging: false,
-  models: [__dirname + '/../database/models/[!_]*.model.ts'],
+  models: [Task],
 };
 
 export = databaseConfig;
