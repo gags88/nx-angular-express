@@ -49,7 +49,6 @@ export class TaskManagerComponent implements OnInit {
   tasks = signal<Task[]>([]);
   taskForm!: FormGroup;
   readonly destroyRef = inject(DestroyRef);
-  private idCounter = 0;
 
   constructor(
     private readonly fb: FormBuilder,

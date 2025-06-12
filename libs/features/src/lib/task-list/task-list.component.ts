@@ -1,7 +1,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  effect,
   inject,
   input,
   OnInit,
@@ -14,7 +13,6 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import {
   FormArray,
   FormBuilder,
-  FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
@@ -42,12 +40,7 @@ export class TaskListComponent implements OnInit {
   readonly destroyRef = inject(DestroyRef);
   form!: FormGroup;
 
-  constructor(private readonly fb: FormBuilder) {
-    effect(() => {
-      const tasks = this.tasks();
-      this.syncFormArrayWithTasks(tasks);
-    });
-  }
+  constructor(private readonly fb: FormBuilder) {}
 
   get checkboxes(): FormArray {
     return this.form.get('checkboxes') as FormArray;
@@ -57,7 +50,6 @@ export class TaskListComponent implements OnInit {
     this.form = this.fb.group({
       checkboxes: this.fb.array([]),
     });
-    this.syncFormArrayWithTasks(this.tasks());
     this.checkboxes.valueChanges
       .pipe(
         tap((values: boolean[]) => {
@@ -74,19 +66,5 @@ export class TaskListComponent implements OnInit {
 
   onToggle(taskId: number): void {
     this.toggleComplete.emit(taskId);
-  }
-
-  private syncFormArrayWithTasks(tasks: Task[]) {
-    const controls = this.checkboxes.controls;
-    const taskCount = tasks.length;
-    while (controls.length < taskCount) {
-      this.checkboxes.push(new FormControl(false));
-    }
-    while (controls.length > taskCount) {
-      this.checkboxes.removeAt(controls.length - 1);
-    }
-    tasks.forEach((task, index) => {
-      this.checkboxes.at(index).setValue(task.completed, { emitEvent: false });
-    });
   }
 }
