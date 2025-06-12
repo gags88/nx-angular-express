@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { NxWelcomeComponent } from './nx-welcome.component';
+import { TaskManagerComponent } from '@perch/features-task';
 
 @Component({
-  imports: [NxWelcomeComponent, RouterModule],
+  imports: [TaskManagerComponent, RouterModule],
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',

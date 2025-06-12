@@ -1,0 +1,57 @@
+<div
+  class="min-h-screen bg-gradient-to-br from-blue-100 via-white to-blue-200 flex flex-col items-center p-6"
+>
+  <div class="w-full max-w-3xl">
+    <!-- Header -->
+    <div class="px-6 pt-10 pb-6">
+      <h1 class="text-4xl font-extrabold text-gray-900 mb-2 select-none">
+        Task Manager
+      </h1>
+      <p class="text-gray-600 text-lg max-w-xl">
+        Manage your tasks efficiently — mark them complete, edit, or delete as
+        needed.
+      </p>
+    </div>
+    <section class="max-w-3xl mx-auto bg-white rounded-2xl shadow-xl p-8">
+      <h1 class="text-3xl font-semibold text-gray-800 mb-6 text-center">
+        🧩 Create task
+      </h1>
+
+      <form
+        [formGroup]="taskForm"
+        (ngSubmit)="addTask()"
+        class="grid gap-4 md:grid-cols-3"
+      >
+        <input
+          nz-input
+          formControlName="title"
+          placeholder="Task title"
+          class="rounded-md border-gray-300"
+        />
+
+        <input
+          nz-input
+          formControlName="description"
+          placeholder="Description (optional)"
+          class="rounded-md border-gray-300"
+        />
+
+        <button
+          nz-button
+          nzType="primary"
+          [disabled]="taskForm.invalid"
+          class="w-full h-full rounded-md font-semibold transition hover:shadow"
+        >
+          Add Task
+        </button>
+      </form>
+    </section>
+    <div class="mt-8">
+      <lib-task-list
+        [tasks]="tasks()"
+        (toggleComplete)="onToggleComplete($event)"
+        (deleteTask)="onDeleteTask($event)"
+      ></lib-task-list>
+    </div>
+  </div>
+</div>
