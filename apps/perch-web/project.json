@@ -1,28 +1,28 @@
 {
-  "name": "perch-monorepo",
+  "name": "perch-web",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "prefix": "app",
-  "sourceRoot": "apps/perch-monorepo/src",
+  "sourceRoot": "apps/perch-web/src",
   "tags": [],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/apps/perch-monorepo",
-        "index": "apps/perch-monorepo/src/index.html",
-        "main": "apps/perch-monorepo/src/main.ts",
+        "outputPath": "dist/apps/perch-web",
+        "index": "apps/perch-web/src/index.html",
+        "main": "apps/perch-web/src/main.ts",
         "polyfills": ["zone.js"],
-        "tsConfig": "apps/perch-monorepo/tsconfig.app.json",
+        "tsConfig": "apps/perch-web/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
           {
             "glob": "**/*",
-            "input": "apps/perch-monorepo/public"
+            "input": "apps/perch-web/public"
           }
         ],
-        "styles": ["apps/perch-monorepo/src/styles.scss"],
+        "styles": ["apps/perch-web/src/styles.scss"],
         "scripts": []
       },
       "configurations": {
@@ -57,10 +57,10 @@
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
-          "buildTarget": "perch-monorepo:build:production"
+          "buildTarget": "perch-web:build:production"
         },
         "development": {
-          "buildTarget": "perch-monorepo:build:development"
+          "buildTarget": "perch-web:build:development"
         }
       },
       "defaultConfiguration": "development"
@@ -68,7 +68,7 @@
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "buildTarget": "perch-monorepo:build"
+        "buildTarget": "perch-web:build"
       }
     },
     "lint": {
@@ -78,14 +78,14 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "apps/perch-monorepo/jest.config.ts"
+        "jestConfig": "apps/perch-web/jest.config.ts"
       }
     },
     "serve-static": {
       "continuous": true,
       "executor": "@nx/web:file-server",
       "options": {
-        "buildTarget": "perch-monorepo:build",
+        "buildTarget": "perch-web:build",
         "spa": true
       }
     }

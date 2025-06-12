@@ -1,8 +1,8 @@
 export default {
-  displayName: 'perch-monorepo',
+  displayName: 'perch-web',
   preset: '../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../../coverage/apps/perch-monorepo',
+  coverageDirectory: '../../coverage/apps/perch-web',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',

@@ -15,13 +15,13 @@ describe('AppComponent', () => {
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelector('h1')?.textContent).toContain(
-      'Welcome perch-monorepo'
+      'Welcome perch-web'
     );
   });
 
-  it(`should have as title 'perch-monorepo'`, () => {
+  it(`should have as title 'perch-web'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('perch-monorepo');
+    expect(app.title).toEqual('perch-web');
   });
 });

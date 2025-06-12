@@ -11,19 +11,19 @@
 To run the dev server for your app, use:
 
 ```sh
-npx nx serve perch-monorepo
+npx nx serve perch-web
 ```
 
 To create a production bundle:
 
 ```sh
-npx nx build perch-monorepo
+npx nx build perch-web
 ```
 
 To see all available targets to run for a project, run:
 
 ```sh
-npx nx show project perch-monorepo
+npx nx show project perch-web
 ```
 
 These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
