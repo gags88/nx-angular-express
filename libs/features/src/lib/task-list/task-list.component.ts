@@ -35,6 +35,7 @@ import { DestroyRef } from '@angular/core';
 })
 export class TaskListComponent implements OnInit {
   readonly tasks = input.required<Task[]>();
+  readonly taskOperationProgress = input.required<boolean>();
   readonly deleteTask = output<number>();
   readonly toggleComplete = output<number>();
   readonly destroyRef = inject(DestroyRef);

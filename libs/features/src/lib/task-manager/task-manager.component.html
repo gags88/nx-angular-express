@@ -49,6 +49,7 @@
     <div class="mt-8">
       <lib-task-list
         [tasks]="tasks()"
+        [taskOperationProgress]="taskOperationProgress()"
         (toggleComplete)="onToggleComplete($event)"
         (deleteTask)="onDeleteTask($event)"
       ></lib-task-list>

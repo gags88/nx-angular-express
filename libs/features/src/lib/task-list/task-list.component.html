@@ -27,17 +27,15 @@
     class="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-white shadow-md rounded-2xl p-4 transition-shadow duration-300 hover:shadow-lg"
   >
     <div class="flex flex-col sm:flex-row sm:items-center gap-5 flex-1 w-full">
-      <button
-        (click)="toggleComplete.emit(task.id)"
+      <div
         class="text-left text-xl font-semibold tracking-wide focus:outline-none focus:ring-4 focus:ring-blue-300 rounded-md transition-colors duration-300 px-1"
         [ngClass]="{
           'line-through text-gray-400': task.completed,
           'text-gray-900 hover:text-blue-600': !task.completed
         }"
-        title="Toggle Complete"
       >
         {{ task.title }}
-      </button>
+      </div>
 
       @if (task.description) {
       <p
@@ -52,8 +50,9 @@
     <div class="flex gap-4 mt-5 sm:mt-0">
       <button
         (click)="toggleComplete.emit(task.id)"
-        class="inline-flex items-center gap-2 px-5 py-2 rounded-full border-2 border-blue-600 text-blue-600 shadow-sm hover:bg-blue-600 hover:text-white focus:outline-none focus:ring-4 focus:ring-blue-400 focus:ring-offset-2 transition"
+        class="inline-flex items-center gap-2 px-5 py-2 rounded-full border-2 border-blue-600 text-blue-600 shadow-sm hover:bg-blue-600 hover:text-white focus:outline-none focus:ring-4 focus:ring-blue-400 focus:ring-offset-2 transition disabled:bg-gray-300 disabled:cursor-not-allowed disabled:text-gray-500 disabled:border-gray-300"
         title="{{ task.completed ? 'Mark as Incomplete' : 'Mark as Complete' }}"
+        [disabled]="taskOperationProgress()"
       >
         @if (!task.completed) {
         <svg
@@ -93,8 +92,9 @@
 
       <button
         (click)="deleteTask.emit(task.id)"
-        class="inline-flex items-center gap-2 px-5 py-2 rounded-full border-2 border-red-600 text-red-600 shadow-sm hover:bg-red-600 hover:text-white focus:outline-none focus:ring-4 focus:ring-red-400 focus:ring-offset-2 transition"
+        class="inline-flex items-center gap-2 px-5 py-2 rounded-full border-2 border-red-600 text-red-600 shadow-sm hover:bg-red-600 hover:text-white focus:outline-none focus:ring-4 focus:ring-red-400 focus:ring-offset-2 transition disabled:bg-gray-300 disabled:cursor-not-allowed disabled:text-gray-500 disabled:border-gray-300"
         title="Delete Task"
+        [disabled]="taskOperationProgress()"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
