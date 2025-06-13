@@ -1,11 +1,12 @@
 import { Task } from '../../../database/models/task.model';
 import { NotFoundError } from '../../errors/not-found-error';
+import { CreateTaskInput } from './task.schema';
 
 export const getAllTasks = async () => {
   return await Task.findAll({ order: [['id', 'DESC']] });
 };
 
-export const createTask = async (taskData) => {
+export const createTask = async (taskData: CreateTaskInput['body']) => {
   return await Task.create(taskData);
 };
 
@@ -14,7 +15,6 @@ export const toggleTaskCompletion = async (id: string) => {
   if (!task) {
     throw new NotFoundError('Task not found');
   }
-
   task.completed = !task.completed;
   await task.save();
   return task;
