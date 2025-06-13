@@ -23,9 +23,11 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { TaskListComponent } from '../task-list/task-list.component';
 import { TaskService } from '@perch/task-data-access';
-import { finalize, tap } from 'rxjs';
+import { catchError, EMPTY, finalize, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { NzMessageModule, NzMessageService } from 'ng-zorro-antd/message';
+import { formatValidationErrors } from '../helpers';
 
 @Component({
   selector: 'lib-task-manager',
@@ -40,10 +42,11 @@ import { NzModalService } from 'ng-zorro-antd/modal';
     NzFormModule,
     NzInputModule,
     NzButtonModule,
+    NzMessageModule,
     TaskListComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [NzModalService, TaskService],
+  providers: [NzModalService, NzMessageService, TaskService],
   templateUrl: './task-manager.component.html',
 })
 export class TaskManagerComponent implements OnInit {
@@ -55,6 +58,7 @@ export class TaskManagerComponent implements OnInit {
   constructor(
     private readonly fb: FormBuilder,
     private readonly taskService: TaskService,
+    private readonly message: NzMessageService,
     private readonly modalService: NzModalService
   ) {}
 
@@ -94,6 +98,10 @@ export class TaskManagerComponent implements OnInit {
         finalize(() => {
           this.taskOperationProgress.set(false);
         }),
+        catchError((error) => {
+          this.message.error(formatValidationErrors(error.error));
+          throw EMPTY;
+        }),
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
@@ -115,6 +123,10 @@ export class TaskManagerComponent implements OnInit {
         }),
         finalize(() => {
           this.taskOperationProgress.set(false);
+        }),
+        catchError((error) => {
+          this.message.error(formatValidationErrors(error.error));
+          throw EMPTY;
         }),
         takeUntilDestroyed(this.destroyRef)
       )
@@ -139,6 +151,10 @@ export class TaskManagerComponent implements OnInit {
         }),
         finalize(() => {
           this.taskOperationProgress.set(false);
+        }),
+        catchError((error) => {
+          this.message.error(formatValidationErrors(error.error));
+          throw EMPTY;
         }),
         takeUntilDestroyed(this.destroyRef)
       )
