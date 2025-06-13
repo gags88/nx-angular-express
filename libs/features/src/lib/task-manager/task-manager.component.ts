@@ -59,6 +59,11 @@ export class TaskManagerComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.taskForm = this.fb.group({
+      title: ['', Validators.required],
+      description: [''],
+    });
+
     this.taskOperationProgress.set(true);
     this.taskService
       .loadTasks()
@@ -72,10 +77,6 @@ export class TaskManagerComponent implements OnInit {
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
-    this.taskForm = this.fb.group({
-      title: ['', Validators.required],
-      description: [''],
-    });
   }
 
   addTask() {
