@@ -94,13 +94,74 @@ describe('TaskManagerComponent', () => {
         expect(component.taskOperationProgress()).toBe(false);
       });
     });
+    it('should load tasks on initialization', waitForAsync(() => {
+      taskService.loadTasks().subscribe();
+      expect(loadTasksSpy).toHaveBeenCalledTimes(1);
+    }));
   });
 
   describe('#addTask', () => {
-    it('should not add a task when form is invalid', () => {
-      component.taskForm.setValue({ title: '', description: '' });
-      component.addTask();
-      expect(component.tasks().length).toBe(0);
+    describe('when form is valid', () => {
+      let addTaskSpy: jest.SpyInstance;
+
+      beforeEach(() => {
+        addTaskSpy = jest.spyOn(taskService, 'addTask').mockReturnValue(
+          of({
+            id: 1,
+            title: 'New Task',
+            description: 'Task Description',
+            completed: false,
+          })
+        );
+        component.taskForm.setValue({
+          title: 'New Task',
+          description: 'Task Description',
+        });
+      });
+      it('should call taskService addTask method', waitForAsync(() => {
+        component.addTask();
+        taskService.addTask(component.taskForm.value).subscribe();
+        expect(addTaskSpy).toHaveBeenCalledTimes(1);
+        expect(addTaskSpy).toHaveBeenCalledWith(component.taskForm.value);
+      }));
     });
+    describe('when form is invalid', () => {
+      beforeEach(() => {
+        component.taskForm.setValue({ title: '', description: '' });
+      });
+      it('should not call taskService.addTask', () => {
+        const addTaskSpy = jest.spyOn(taskService, 'addTask');
+        component.addTask();
+        expect(addTaskSpy).not.toHaveBeenCalled();
+      });
+      it('should not update tasks', () => {
+        const initialTasksLength = component.tasks().length;
+        component.addTask();
+        expect(component.tasks().length).toBe(initialTasksLength);
+      });
+    });
+  });
+
+  describe('#onToggleComplete', () => {
+    const taskId = 1;
+    let toggleCompleteSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+      component.tasks.set([
+        { id: taskId, title: 'Test Task', completed: false },
+      ]);
+      toggleCompleteSpy = jest
+        .spyOn(taskService, 'toggleComplete')
+        .mockReturnValue(
+          of({ id: taskId, title: 'Test Task', completed: true })
+        );
+    });
+
+    it('should call taskService toggleComplete method', waitForAsync(() => {
+      component.onToggleComplete(taskId);
+      taskService.toggleComplete(taskId.toString()).subscribe();
+      expect(toggleCompleteSpy).toHaveBeenCalledTimes(1);
+      expect(toggleCompleteSpy).toHaveBeenCalledWith(taskId.toString());
+    }));
   });
 });

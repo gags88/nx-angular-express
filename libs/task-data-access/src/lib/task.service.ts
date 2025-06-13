@@ -16,16 +16,10 @@ export class TaskService {
   }
 
   toggleComplete(id: string) {
-    if (!id) {
-      return of({});
-    }
-    return this.http.patch(`/api/tasks/${id}/toggle`, {});
+    return this.http.patch<Task>(`/api/tasks/${id}/toggle`, {});
   }
 
   deleteTask(id: string) {
-    if (!id) {
-      return of({});
-    }
     return this.http.delete(`/api/tasks/${id}`);
   }
 }

@@ -100,23 +100,31 @@ export class TaskManagerComponent implements OnInit {
   }
 
   onToggleComplete(id: number) {
-    this.taskOperationProgress.set(true);
-    this.taskService
-      .toggleComplete(id.toString())
-      .pipe(
-        tap(() => {
-          this.tasks.update((tasks) =>
-            tasks.map((task) =>
-              task.id === id ? { ...task, completed: !task.completed } : task
-            )
-          );
-        }),
-        finalize(() => {
-          this.taskOperationProgress.set(false);
-        }),
-        takeUntilDestroyed(this.destroyRef)
-      )
-      .subscribe();
+    try {
+      this.taskOperationProgress.set(true);
+      this.taskService
+        .toggleComplete(id.toString())
+        .pipe(
+          tap((updatedTask) => {
+            this.tasks.update((tasks) =>
+              tasks.map((task) =>
+                task.id === updatedTask.id
+                  ? { ...task, completed: !task.completed }
+                  : task
+              )
+            );
+            console.log(this.tasks());
+          }),
+          finalize(() => {
+            this.taskOperationProgress.set(false);
+          }),
+          takeUntilDestroyed(this.destroyRef)
+        )
+        .subscribe();
+    } catch (error) {
+      console.error('Error toggling task completion:', error);
+      this.taskOperationProgress.set(false);
+    }
   }
 
   onDeleteTask(id: number) {
