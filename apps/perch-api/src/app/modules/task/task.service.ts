@@ -1,28 +1,28 @@
 import { Task } from '../../../database/models/task.model';
-import { Request, Response } from 'express';
+import { NotFoundError } from '../../errors/not-found-error';
 
-export async function getAll(req: Request, res: Response) {
-  const tasks = await Task.findAll({ order: [['id', 'DESC']] });
-  res.json(tasks);
-}
+export const getAllTasks = async () => {
+  return await Task.findAll({ order: [['id', 'DESC']] });
+};
 
-export async function create(req: Request, res: Response) {
-  const task = await Task.create(req.body);
-  res.status(201).json(task);
-}
+export const createTask = async (taskData) => {
+  return await Task.create(taskData);
+};
 
-export async function toggle(req: Request, res: Response) {
-  const task = await Task.findByPk(req.params.id);
-  if (task) {
-    task.completed = !task.completed;
-    await task.save();
-    res.json(task);
-  } else {
-    res.status(404).json({ error: 'Task not found' });
+export const toggleTaskCompletion = async (id: string) => {
+  const task = await Task.findByPk(id);
+  if (!task) {
+    throw new NotFoundError('Task not found');
   }
-}
 
-export async function remove(req: Request, res: Response) {
-  const deleted = await Task.destroy({ where: { id: req.params.id } });
-  res.status(deleted ? 204 : 404).end();
-}
+  task.completed = !task.completed;
+  await task.save();
+  return task;
+};
+
+export const deleteTask = async (id: string) => {
+  const deletedCount = await Task.destroy({ where: { id } });
+  if (deletedCount === 0) {
+    throw new NotFoundError('Task not found');
+  }
+};

@@ -1,9 +1,15 @@
 import { Router } from 'express';
-import * as taskService from './task.service';
+import asyncHandler from 'express-async-handler';
+import {
+  createTask,
+  deleteTask,
+  getAllTasks,
+  toggleTask,
+} from './task.controller';
 
 export const taskRoutes = Router();
 
-taskRoutes.get('/', taskService.getAll);
-taskRoutes.post('/', taskService.create);
-taskRoutes.patch('/:id/toggle', taskService.toggle);
-taskRoutes.delete('/:id', taskService.remove);
+taskRoutes.get('/', asyncHandler(getAllTasks));
+taskRoutes.post('/', asyncHandler(createTask));
+taskRoutes.patch('/:id/toggle', asyncHandler(toggleTask));
+taskRoutes.delete('/:id', asyncHandler(deleteTask));
